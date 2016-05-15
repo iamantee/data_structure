@@ -10,10 +10,10 @@
 typedef struct node node;
 typedef struct list list;
 
-list listCreate();
-node nodeCreate();
+void * listCreate();
+void * nodeCreate();
 int push(list *plist, void *value);
-(void*) iterator();
+void * iterator();
 
 /* structure */
 struct node{
@@ -41,10 +41,10 @@ struct list{
  * Return Value:
  * nodeCreate function return the inited node.
  * */
-node nodeCreate(){
+void * nodeCreate(){
   node *pnode;
 
-  if(pnode = malloc(sizeof(*node)) == NULL) return NULL;
+  if((pnode = (node*) malloc(sizeof(struct node))) == NULL) return NULL;
 
   pnode->previous_node = NULL;
   pnode->next_node = NULL;
@@ -60,17 +60,19 @@ node nodeCreate(){
  * Return Value:
  * listCreate function return the inited linked list.
  * */
-list listCreate(){
+void * listCreate(){
   list *plist;
 
-  if(plist = malloc(sizeof(*list)) == NULL) return NULL;
+  if((plist = (list*) malloc(sizeof(struct list))) == NULL) return NULL;
 
-  plist->head = plist->tail = NULL;
+  plist->head_node = plist->tail_node = NULL;
 
   plist->length = 0;
 
+  /*
   plist->push = push;
   plist->iterator = iterator;
+  */
 
   return plist;
 }
