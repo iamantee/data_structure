@@ -28,7 +28,7 @@ struct list{
 
   unsigned long length;
 
-  void (*push)(void *pointer);
+  int (*push)(list *,void *);
   void (*iterator)(void);
 };
 
@@ -69,10 +69,10 @@ void * listCreate(){
 
   plist->length = 0;
 
-  /*
+  
   plist->push = push;
-  plist->iterator = iterator;
-  */
+  //plist->iterator = iterator;
+  
 
   return plist;
 }
@@ -89,7 +89,8 @@ void * listCreate(){
 int push(list *plist, void *value){
   if(plist == NULL) return 1;
   
-  node *pnode = nodeCreate();
+  node *pnode;
+  if((pnode = nodeCreate()) == NULL) return 1;
   pnode->value = value;
 
   if(plist->length == 0){
@@ -110,6 +111,32 @@ int push(list *plist, void *value){
   return 0;
 }
 
+/* *
+ * Description:
+ * iterator function is to 
+ *
+ * */
+
 int main(int argc, char** argv){
+  list *plist = listCreate();
+  int n,m,o;
+
+  n = 1;
+  m = 2;
+  o = 3;
+
+  if(plist == NULL){
+    printf("\nThe creating process of linked list is fail.\n");
+    return 1;
+  }
+
+  plist->push(plist,&n);
+  plist->push(plist,&m);
+  plist->push(plist,&o);
+
+  printf("The first number of the linked list:\t%d\n",*((int *)plist->head_node->value));
+  printf("The second number of the linked list:\t%d\n",*((int *)plist->head_node->next_node->value));
+  printf("The last number of the linked list:\t%d\n",*((int *)plist->tail_node->value));
+
   return 0;
 }
